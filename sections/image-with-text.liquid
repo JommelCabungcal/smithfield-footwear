@@ -25,7 +25,8 @@
         class="image-with-text__media image-with-text__media--{{ section.settings.height }} gradient color-{{ section.settings.color_scheme }} global-media-settings {% if section.settings.image != blank %}media{% else %}image-with-text__media--placeholder placeholder{% endif %}"
         {% if section.settings.height == 'adapt' and section.settings.image != blank %}
         style="padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;"
-        {% endif %}>
+        {% endif %}
+        data-section-id="{{ section.id }}">
         {%- if section.settings.image != blank -%}
           {%- capture sizes -%}(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2){%- endcapture -%}
           {{ section.settings.image | image_url: width: 1500 | image_tag:
@@ -65,13 +66,12 @@
   </div>
 </div>
 
-{{ % comment %}
- Task 1
- {% endcomment % }}
 
 <script>
-  let imageTag = document.querySelector(".image-with-text__media > img")
-  let currentUrl = imageTag.getAttribute('src');
+  let imageTag = document.querySelector("[data-section-id] > img")
+  if (imageTag) {
+    let currentUrl = imageTag.getAttribute('src');
+  }
 
   // Define the Unsplash API URL and your API key
   const unsplashUrl = 'https://api.unsplash.com/photos/random';
@@ -79,12 +79,12 @@
 
   // Make an AJAX request to the Unsplash API
   fetch(`${unsplashUrl}?client_id=${apiKey}`).then(response => response.json()).then(data => {
+
     // Get the URL of the image from the API response
     const imageUrl = data.urls.regular;
     imageTag.setAttribute('src', imageUrl);
     imageTag.setAttribute('srcset', imageUrl);
-  }).catch(error => {
-  })
+  }).catch(error => {})
 </script>
 
 {% schema %}

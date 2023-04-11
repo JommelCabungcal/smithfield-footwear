@@ -1,4 +1,3 @@
-console.log("hello");
 function getFocusableElements(container) {
   return Array.from(
     container.querySelectorAll(
@@ -769,21 +768,14 @@ class VariantSelects extends HTMLElement {
       this.toggleAddButton(true, '', true);
       this.setUnavailable();
     } else {
-      //this.updateMedia();
+      this.updateMedia();
       this.updateURL();
       this.updateVariantInput();
       this.renderProductInfo();
       this.updateShareUrl();
-      this.updateimage();
     }
   }
-  updateimage(){
-    let image_container=document.querySelector("#data-image > img")
-    let currentvariant_src=this.currentVariant.featured_image.src;
-    image_container.setAttribute('src', currentvariant_src);
-    image_container.setAttribute('srcset', currentvariant_src);
-
-  }
+  
   updateOptions() {
     this.options = Array.from(this.querySelectorAll('select'), (select) => select.value);
   }
